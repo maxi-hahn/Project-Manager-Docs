@@ -1,0 +1,13 @@
+name: Deploy on PM release
+
+on:
+  repository_dispatch:
+    types: [pm-release]
+  workflow_dispatch:
+
+jobs:
+  trigger-vercel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"

@@ -1,0 +1,180 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+---
+
+<BaseLayout
+  title="Conceptos"
+  description="Templates, tools, features, environments, technologies y runtimes."
+>
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-white">Conceptos</h1>
+    <p class="mt-2 max-w-3xl text-neutral-400">
+      Project Manager combina varios tipos de recursos para armar un proyecto.
+      Cada uno tiene un rol específico y se define en su propia carpeta dentro
+      de <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">resources_root</code>.
+    </p>
+  </section>
+
+  <Section id="template" title="Template">
+    <p class="max-w-3xl text-neutral-400">
+      La estructura base de un proyecto. Define las carpetas, archivos y
+      configuración inicial. Es una carpeta con archivos + un
+      <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">template.json</code>
+      con metadata.
+    </p>
+    <div class="mt-6">
+      <CodeBlock
+        label="Ejemplo: template.json"
+        code={`{
+  "name": "Python FastAPI",
+  "category": "web_api",
+  "category_label": "Web API (backend)",
+  "language": "python",
+  "runtime": "python",
+  "description": "API REST con FastAPI, Uvicorn y Pydantic Settings",
+  "version": "1.0.0",
+  "requires": ["python"]
+}`}
+      />
+    </div>
+    <div class="mt-6 grid gap-3 text-sm text-neutral-400 sm:grid-cols-2">
+      <p><strong class="text-white">category:</strong> <code class="font-mono">cli</code>, <code class="font-mono">web_api</code>, <code class="font-mono">web_app</code>, <code class="font-mono">desktop</code>, <code class="font-mono">library</code></p>
+      <p><strong class="text-white">runtime:</strong> <code class="font-mono">python</code>, <code class="font-mono">node</code>, <code class="font-mono">dotnet</code></p>
+      <p><strong class="text-white">requires:</strong> comandos que deben estar en el PATH</p>
+      <p><strong class="text-white">version:</strong> versión del template</p>
+    </div>
+  </Section>
+
+  <Section id="tool" title="Tool">
+    <p class="max-w-3xl text-neutral-400">
+      Una herramienta de desarrollo que se agrega al proyecto. Típicamente
+      instala dependencias y configura archivos. Ejemplos: Pytest, Ruff,
+      Prettier. Se define con un
+      <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">tool.json</code>
+      + una carpeta <code class="font-mono">files/</code> + comandos a ejecutar.
+    </p>
+  </Section>
+
+  <Section id="feature" title="Feature">
+    <p class="max-w-3xl text-neutral-400">
+      Un módulo funcional reutilizable. Agrega código listo para usar.
+      Ejemplos: Pagination (FastAPI), React Router, Axios Client, Dark Mode,
+      Toast Notifications, i18n. Se define con un
+      <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">feature.json</code>
+      + una carpeta <code class="font-mono">files/</code>.
+    </p>
+    <p class="mt-4 max-w-3xl text-neutral-400">
+      <strong class="text-white">Soporta variantes:</strong> una feature puede
+      tener distintas versiones según el template (por ejemplo, React Vite vs
+      Next.js).
+    </p>
+  </Section>
+
+  <Section id="environment" title="Environment">
+    <p class="max-w-3xl text-neutral-400">
+      Define cómo se ejecuta el proyecto. Típicamente agrega archivos de
+      infraestructura. Ejemplo: Docker, con
+      <code class="font-mono">Dockerfile</code> y
+      <code class="font-mono">docker-compose.yml</code>. Se define con un
+      <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">environment.json</code>
+      + archivos por lenguaje.
+    </p>
+  </Section>
+
+  <Section id="technology" title="Technology">
+    <p class="max-w-3xl text-neutral-400">
+      Una biblioteca o framework que se integra al proyecto. Agrega
+      configuración y dependencias. Ejemplos: Tailwind CSS, SQLAlchemy. Se
+      define con un
+      <code class="rounded bg-card px-1.5 py-0.5 font-mono text-sm text-neutral-300">technology.json</code>
+      + <code class="font-mono">files/</code>.
+    </p>
+  </Section>
+
+  <Section id="runtime" title="Runtime">
+    <p class="max-w-3xl text-neutral-400">
+      Indica cómo se prepara el entorno del proyecto.
+    </p>
+    <ul class="mt-6 flex flex-col gap-3 text-sm text-neutral-400">
+      <li class="rounded-lg border border-border bg-card p-4">
+        <code class="font-mono text-accent">python</code> — crea
+        <code class="font-mono">.venv</code> y ejecuta
+        <code class="font-mono">pip install -r requirements.txt</code> (si el
+        usuario activó instalar dependencias).
+      </li>
+      <li class="rounded-lg border border-border bg-card p-4">
+        <code class="font-mono text-accent">node</code> — ejecuta
+        <code class="font-mono">npm install</code> (si el usuario activó
+        instalar dependencias). No crea <code class="font-mono">.venv</code>.
+      </li>
+      <li class="rounded-lg border border-border bg-card p-4">
+        <code class="font-mono text-accent">dotnet</code> — sin instalación
+        automática por ahora.
+      </li>
+    </ul>
+  </Section>
+
+  <Section id="placeholders" title="Placeholders">
+    <p class="max-w-3xl text-neutral-400">
+      En cualquier archivo de texto del template podés usar:
+    </p>
+    <div class="mt-6">
+      <CodeBlock
+        label="Placeholders disponibles"
+        code={`{{PROJECT_NAME}}  →  nombre del proyecto
+{{DESCRIPTION}}   →  descripción`}
+      />
+    </div>
+    <p class="mt-4 max-w-3xl text-neutral-400">
+      También funcionan en <strong class="text-white">nombres de archivos y carpetas</strong>:
+      <code class="font-mono">{{PROJECT_NAME}}.csproj</code> →
+      <code class="font-mono">MiProyecto.csproj</code>.
+    </p>
+  </Section>
+
+  <Section id="resources-root" title="resources_root">
+    <p class="max-w-3xl text-neutral-400">
+      Los templates y demás recursos se descubren desde una carpeta
+      configurable por el usuario.
+    </p>
+    <div class="mt-6">
+      <CodeBlock
+        label="Estructura"
+        code={`resources_root/
+├── TEMPLATES/
+├── TOOLS/
+├── FEATURES/
+├── ENVIRONMENTS/
+└── TECHNOLOGIES/`}
+      />
+    </div>
+  </Section>
+
+  <Section id="relacion" title="Cómo se relacionan">
+    <div class="mt-2">
+      <CodeBlock
+        label="Flujo"
+        code={`Template (estructura base)
+    ↓
+Runtime (prepara el entorno)
+    ↓
+Tools (agregan herramientas de desarrollo)
+    ↓
+Features (agregan funcionalidad)
+    ↓
+Environments (definen cómo se ejecuta)
+    ↓
+Technologies (integran bibliotecas)`}
+      />
+    </div>
+    <p class="mt-4 max-w-3xl text-neutral-400">
+      <strong class="text-white">Filtrado:</strong> Tools, Features, Environments
+      y Technologies solo aparecen si son compatibles con el template elegido.
+      La compatibilidad se define con
+      <code class="font-mono">compatible_with</code> y/o
+      <code class="font-mono">compatible_languages</code>.
+    </p>
+  </Section>
+</BaseLayout>

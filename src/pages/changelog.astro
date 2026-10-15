@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { config } from "../config";
+
+interface Release {
+  version: string;
+  date: string;
+  changes: string[];
+}
+
+async function getReleases(): Promise<Release[]> {
+  try {
+    const repo = config.github.replace("https://github.com/", "");
+    const res = await fetch(`https://api.github.com/repos/${repo}/releases`, {
+      headers: { "User-Agent": "astro-docs" },
+    });
+    if (!res.ok) return [];
+    const data: any[] = await res.json();
+
+    return data.map((r) => ({
+      version: String(r.tag_name ?? "").replace(/^v/, ""),
+      date: r.published_at ? String(r.published_at).slice(0, 10) : "",
+      changes: r.body
+        ? String(r.body)
+            .split("\n")
+            .map((l) => l.trim())
+            .filter((l) => l.startsWith("-") || l.startsWith("*"))
+            .map((l) => l.replace(/^[-*]\s*/, ""))
+        : [],
+    }));
+  } catch {
+    return [];
+  }
+}
+
+const releases = await getReleases();
+---
+
+<BaseLayout title="Changelog" description="Historial de versiones de Project Manager.">
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-white">Changelog</h1>
+    <p class="mt-2 text-neutral-400">
+      Historial de versiones de {config.name}.
+    </p>
+
+    {releases.length === 0 && (
+      <div class="mt-10 rounded-lg border border-border bg-card p-6">
+        <p class="text-neutral-400">
+          No se pudieron cargar las releases desde GitHub.
+        </p>
+        <a
+          href={config.releases}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-3 inline-block text-sm text-accent hover:underline"
+        >
+          Ver releases en GitHub →
+        </a>
+      </div>
+    )}
+
+    <div class="mt-10 flex flex-col gap-10">
+      {releases.map((release) => (
+        <div class="border-l-2 border-accent pl-6">
+          <div class="flex items-baseline gap-3">
+            <h2 class="text-xl font-semibold text-white">v{release.version}</h2>
+            {release.date && (
+              <span class="text-sm font-mono text-neutral-500">{release.date}</span>
+            )}
+          </div>
+          {release.changes.length > 0 ? (
+            <ul class="mt-3 flex flex-col gap-1.5 text-sm text-neutral-400">
+              {release.changes.map((change) => (
+                <li class="flex gap-2">
+                  <span class="text-accent">·</span>
+                  {change}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-3 text-sm text-neutral-500">
+              Sin descripción en esta release.
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12">
+      <a
+        href={config.releases}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm text-accent hover:underline"
+      >
+        Ver todas las releases en GitHub →
+      </a>
+    </div>
+  </section>
+</BaseLayout>

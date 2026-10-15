@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { config } from "../config";
+
+const templates = [
+  { name: "Python Basic", category: "CLI", language: "Python", runtime: "python" },
+  { name: "Python FastAPI", category: "Web API", language: "Python", runtime: "python" },
+  { name: "React Vite", category: "Web App", language: "JavaScript", runtime: "node" },
+  { name: "React Vite TypeScript", category: "Web App", language: "JavaScript", runtime: "node" },
+  { name: "React Vite Feature-Based", category: "Web App", language: "JavaScript", runtime: "node" },
+  { name: "CSharp Web API", category: "Web API", language: "C#", runtime: "dotnet" },
+  { name: "CSharp Clean Architecture", category: "Web API", language: "C#", runtime: "dotnet" },
+  { name: "Astro Docs", category: "Web App", language: "JavaScript", runtime: "node" },
+];
+
+const tools = ["Pytest", "Ruff", "Prettier"];
+const features = [
+  "Pagination (FastAPI)",
+  "React Router",
+  "Axios Client",
+  "Dark Mode (React)",
+  "Toast Notifications (React)",
+  "i18n (React)",
+];
+const environments = ["Docker"];
+const technologies = ["Tailwind CSS", "SQLAlchemy"];
+---
+
+<BaseLayout
+  title="Templates"
+  description="Templates, tools, features, environments y technologies disponibles."
+>
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <h1 class="text-3xl font-bold text-white">Templates</h1>
+    <p class="mt-2 max-w-3xl text-neutral-400">
+      Estos son los templates oficiales. También podés crear los tuyos y
+      ponerlos en tu carpeta <code class="font-mono">resources_root</code>.
+    </p>
+    <a
+      href={config.templatesRepo}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-4 inline-block text-sm text-accent hover:underline"
+    >
+      Ver repositorio de templates →
+    </a>
+  </section>
+
+  <section class="mx-auto max-w-5xl border-t border-border px-6 py-16">
+    <h2 class="text-2xl font-semibold text-white">Disponibles</h2>
+    <div class="mt-6 overflow-hidden rounded-lg border border-border">
+      <table class="w-full text-sm">
+        <thead class="bg-card text-left text-neutral-400">
+          <tr>
+            <th class="px-4 py-3 font-medium">Template</th>
+            <th class="px-4 py-3 font-medium">Categoría</th>
+            <th class="px-4 py-3 font-medium">Lenguaje</th>
+            <th class="px-4 py-3 font-medium">Runtime</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          {templates.map((t) => (
+            <tr class="transition-colors hover:bg-card/50">
+              <td class="px-4 py-3 text-white">{t.name}</td>
+              <td class="px-4 py-3 text-neutral-400">{t.category}</td>
+              <td class="px-4 py-3 text-neutral-400">{t.language}</td>
+              <td class="px-4 py-3 font-mono text-xs text-accent">{t.runtime}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl border-t border-border px-6 py-16">
+    <h2 class="text-2xl font-semibold text-white">Tools</h2>
+    <p class="mt-2 text-neutral-400">Herramientas de desarrollo opcionales.</p>
+    <div class="mt-6 flex flex-wrap gap-2">
+      {tools.map((t) => (
+        <span class="rounded-md border border-border bg-card px-3 py-1.5 text-sm text-neutral-300">{t}</span>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl border-t border-border px-6 py-16">
+    <h2 class="text-2xl font-semibold text-white">Features</h2>
+    <p class="mt-2 text-neutral-400">Módulos funcionales reutilizables.</p>
+    <div class="mt-6 flex flex-wrap gap-2">
+      {features.map((f) => (
+        <span class="rounded-md border border-border bg-card px-3 py-1.5 text-sm text-neutral-300">{f}</span>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl border-t border-border px-6 py-16">
+    <div class="grid gap-12 sm:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-semibold text-white">Environments</h2>
+        <p class="mt-2 text-neutral-400">Definen cómo se ejecuta el proyecto.</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {environments.map((e) => (
+            <span class="rounded-md border border-border bg-card px-3 py-1.5 text-sm text-neutral-300">{e}</span>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold text-white">Technologies</h2>
+        <p class="mt-2 text-neutral-400">Bibliotecas y frameworks integrables.</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {technologies.map((t) => (
+            <span class="rounded-md border border-border bg-card px-3 py-1.5 text-sm text-neutral-300">{t}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
