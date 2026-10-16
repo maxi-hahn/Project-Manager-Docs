@@ -12,6 +12,10 @@ interface Props {
 const { title, description } = Astro.props;
 const pageTitle = title ? `${title} · ${config.name}` : config.name;
 const pageDescription = description ?? config.description;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://example.com").toString();
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
@@ -19,12 +23,30 @@ const pageDescription = description ?? config.description;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={config.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#0a0a0a" />
   </head>
   <body>
     <Nav />

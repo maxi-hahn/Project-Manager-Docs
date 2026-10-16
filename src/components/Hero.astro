@@ -1,8 +1,9 @@
 ---
-import { config, getLatestVersion } from "../config";
+import { config, getLatestVersion, getDownloadUrl } from "../config";
 
 const version = await getLatestVersion();
 const badge = config.hero.badge?.replace(/v[\d.]+/, `v${version}`) ?? `v${version}`;
+const downloadUrl = await getDownloadUrl();
 ---
 
 <section class="mx-auto max-w-5xl px-6 py-24">
@@ -17,12 +18,14 @@ const badge = config.hero.badge?.replace(/v[\d.]+/, `v${version}`) ?? `v${versio
       {config.hero.subtitle}
     </p>
     <div class="flex flex-wrap gap-3 pt-2">
-      <a
-        href={config.hero.primaryCta.href}
+      <button
+        type="button"
+        data-open-download-modal
+        data-download-url={downloadUrl}
         class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
       >
         {config.hero.primaryCta.label}
-      </a>
+      </button>
       {config.hero.secondaryCta && (
         <a
           href={config.hero.secondaryCta.href}

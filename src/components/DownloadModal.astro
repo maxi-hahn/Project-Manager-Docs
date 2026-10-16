@@ -1,0 +1,190 @@
+---
+import { config } from "../config";
+
+const { notify } = config;
+---
+
+<div
+  id="download-modal"
+  class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+>
+  <div class="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-xl">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h3 class="text-lg font-semibold text-white">
+          Descargar {config.name}
+        </h3>
+        <p class="mt-1 text-sm text-neutral-400">
+          Última versión disponible
+        </p>
+      </div>
+      <button
+        type="button"
+        id="download-modal-close"
+        class="text-neutral-500 transition-colors hover:text-white"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+    </div>
+
+    {notify.enabled && (
+      <div class="mt-5 rounded-md border border-border bg-bg p-4">
+        <label class="flex cursor-pointer items-start gap-3 text-sm text-neutral-300">
+          <input
+            type="checkbox"
+            id="download-modal-checkbox"
+            class="mt-0.5 h-4 w-4 cursor-pointer rounded border-border bg-bg accent-accent"
+          />
+          <span>{notify.checkboxLabel}</span>
+        </label>
+
+        <div id="download-modal-email-wrapper" class="mt-3 hidden">
+          <input
+            type="email"
+            id="download-modal-email"
+            placeholder={notify.emailPlaceholder}
+            class="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-white placeholder-neutral-500 outline-none focus:border-accent"
+          />
+          <p
+            id="download-modal-message"
+            class="mt-2 hidden text-xs"
+          ></p>
+        </div>
+      </div>
+    )}
+
+    <div class="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      <button
+        type="button"
+        id="download-modal-cancel"
+        class="rounded-md border border-border px-4 py-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        id="download-modal-confirm"
+        class="cursor-pointer rounded-md bg-accent px-5 py-2 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Descargar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script
+  define:vars={{
+    endpoint: notify.endpoint,
+    successMessage: notify.successMessage,
+    errorMessage: notify.errorMessage,
+  }}
+>
+  const modal = document.getElementById("download-modal");
+  const openBtns = document.querySelectorAll("[data-open-download-modal]");
+  const closeBtn = document.getElementById("download-modal-close");
+  const cancelBtn = document.getElementById("download-modal-cancel");
+  const confirmBtn = document.getElementById("download-modal-confirm");
+  const checkbox = document.getElementById("download-modal-checkbox");
+  const emailWrapper = document.getElementById("download-modal-email-wrapper");
+  const emailInput = document.getElementById("download-modal-email");
+  const message = document.getElementById("download-modal-message");
+
+  let currentDownloadUrl = "";
+
+  function updateConfirmState() {
+    if (!confirmBtn || !checkbox) return;
+
+    // Si el checkbox está marcado, exigimos un email válido
+    if (checkbox.checked) {
+      const email = emailInput?.value?.trim() ?? "";
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      confirmBtn.disabled = !valid;
+    } else {
+      confirmBtn.disabled = false;
+    }
+  }
+
+  function openModal(downloadUrl) {
+    currentDownloadUrl = downloadUrl || "";
+    modal?.classList.remove("hidden");
+    modal?.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    updateConfirmState();
+  }
+
+  function closeModal() {
+    modal?.classList.add("hidden");
+    modal?.classList.remove("flex");
+    document.body.style.overflow = "";
+    if (message) {
+      message.textContent = "";
+      message.className = "mt-2 hidden text-xs";
+    }
+    if (emailInput) emailInput.value = "";
+    if (checkbox) checkbox.checked = false;
+    emailWrapper?.classList.add("hidden");
+    updateConfirmState();
+  }
+
+  openBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const url = btn.getAttribute("data-download-url") || "";
+      openModal(url);
+    });
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+  cancelBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal?.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  checkbox?.addEventListener("change", () => {
+    emailWrapper?.classList.toggle("hidden", !checkbox.checked);
+    updateConfirmState();
+  });
+
+  emailInput?.addEventListener("input", () => {
+    if (message && !message.classList.contains("hidden")) {
+      message.textContent = "";
+      message.className = "mt-2 hidden text-xs";
+    }
+    updateConfirmState();
+  });
+
+  confirmBtn?.addEventListener("click", async () => {
+    if (confirmBtn.disabled) return;
+
+    const email = emailInput?.value?.trim() ?? "";
+    const wantsNotify = checkbox?.checked && email;
+
+    // Si marcó el checkbox, guardamos el email antes de descargar
+    if (wantsNotify && endpoint) {
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+      } catch {
+        // Si falla, igual dejamos que descargue
+      }
+    }
+
+    // Redirigimos al asset
+    if (currentDownloadUrl) {
+      window.location.href = currentDownloadUrl;
+    }
+    closeModal();
+  });
+</script>

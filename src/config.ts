@@ -30,6 +30,11 @@ export interface FooterLink {
   href: string;
 }
 
+export interface DownloadConfig {
+  assetName: string;
+  fallbackUrl: string;
+}
+
 export interface Config {
   name: string;
   tagline: string;
@@ -38,6 +43,7 @@ export interface Config {
   github: string;
   releases: string;
   templatesRepo: string;
+  download: DownloadConfig;
   nav: NavItem[];
   hero: {
     badge?: string;
@@ -79,10 +85,17 @@ export const config: Config = {
   releases: "https://github.com/maxi-hahn/project-manager/releases",
   templatesRepo: "https://github.com/maxi-hahn/Project-manager-templates",
 
+  download: {
+    assetName: "ProjectManager.zip",
+    fallbackUrl: "https://github.com/maxi-hahn/project-manager/releases/latest",
+  },
+
   nav: [
     { label: "Inicio", href: "/" },
     { label: "Conceptos", href: "/conceptos" },
     { label: "Templates", href: "/templates" },
+    { label: "Roadmap", href: "/roadMap" },
+    { label: "Colaborar", href: "/colaborar" },
     { label: "Changelog", href: "/changelog" },
     { label: "GitHub", href: "https://github.com/maxi-hahn/project-manager", external: true },
   ],
@@ -123,7 +136,7 @@ export const config: Config = {
       {
         label: "Opción 1 — Ejecutable (recomendado)",
         command:
-          "1. Descargar ProjectManager-vX.Y.Z.zip desde Releases\n2. Descomprimir en una carpeta\n3. Crear acceso directo a ProjectManager.exe\n4. Doble click para abrir",
+          "1. Descargar ProjectManager.zip desde Releases\n2. Descomprimir en una carpeta\n3. Crear acceso directo a ProjectManager.exe\n4. Doble click para abrir",
       },
       {
         label: "Opción 2 — Clonar el repo",
@@ -210,5 +223,40 @@ export async function getLatestVersion(): Promise<string> {
     return String(data.tag_name ?? config.version).replace(/^v/, "");
   } catch {
     return config.version;
+  }
+}
+
+/**
+ * Devuelve la URL directa de descarga del asset del último release.
+ * Si falla, devuelve la URL de fallback (página de releases).
+ */
+export async function getDownloadUrl(): Promise<string> {
+  const fallback = config.download.fallbackUrl;
+  try {
+    const repo = config.github.replace("https://github.com/", "");
+    const res = await fetch(
+      `https://api.github.com/repos/${repo}/releases/latest`,
+      { headers: { "User-Agent": "astro-docs" } }
+    );
+    if (!res.ok) return fallback;
+    const data = await res.json();
+
+    const assets: Array<{ name: string; browser_download_url: string }> =
+      data.assets ?? [];
+
+    // 1. Intenta encontrar el asset con el nombre exacto configurado
+    const exact = assets.find((a) => a.name === config.download.assetName);
+    if (exact) return exact.browser_download_url;
+
+    // 2. Si no, intenta con .zip
+    const zip = assets.find((a) => a.name.endsWith(".zip"));
+    if (zip) return zip.browser_download_url;
+
+    // 3. Si no, devuelve el primero
+    if (assets.length > 0) return assets[0].browser_download_url;
+
+    return fallback;
+  } catch {
+    return fallback;
   }
 }

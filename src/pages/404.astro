@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 — No encontrado">
+  <section class="mx-auto flex max-w-5xl flex-col items-center px-6 py-32 text-center">
+    <p class="font-mono text-sm text-accent">404</p>
+    <h1 class="mt-4 text-4xl font-bold text-white">Página no encontrada</h1>
+    <p class="mt-4 max-w-md text-neutral-400">
+      La página que buscás no existe o fue movida. Probá volver al inicio o
+      revisar la documentación.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a
+        href="/"
+        class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+      >
+        Volver al inicio
+      </a>
+      <a
+        href="/conceptos"
+        class="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+      >
+        Ver conceptos
+      </a>
+    </div>
+  </section>
+</BaseLayout>
