@@ -182,6 +182,11 @@ export const config: Config = {
       description:
         "Creación automática de repositorios vía GitHub CLI (opcional).",
     },
+    {
+      title: "Instalación en segundo plano",
+      description:
+        "Crea el proyecto y abre tu editor inmediatamente. Las dependencias (npm / pip) se instalan en segundo plano y te avisa cuando está listo.",
+    },
   ],
 
   notify: {
