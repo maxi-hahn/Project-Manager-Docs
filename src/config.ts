@@ -191,7 +191,7 @@ export const config: Config = {
 
   notify: {
     enabled: true,
-    endpoint: "",
+    endpoint: "https://script.google.com/macros/s/AKfycbwibXP_mxCdm9AVQmLvG0UJP86WxXuvYtgSINq8ef__kV9vHNSbTBT47Tw-ZKFxPqxu/exec",
     title: "Notificaciones",
     description: "Recibí un correo cuando salga una nueva versión o template.",
     checkboxLabel: "Quiero recibir un correo cuando haya actualizaciones",
