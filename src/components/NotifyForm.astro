@@ -60,12 +60,14 @@ const { notify } = config;
       message.className = "text-sm text-red-400";
       return;
     }
-    try {
+       try {
+      const formData = new URLSearchParams();
+      formData.append("email", email);
+
       await fetch(endpoint, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: formData, 
       });
       message.textContent = successMessage;
       message.className = "text-sm text-green-400";

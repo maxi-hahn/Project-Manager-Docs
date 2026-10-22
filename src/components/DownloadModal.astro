@@ -168,19 +168,22 @@ const { notify } = config;
     const wantsNotify = checkbox?.checked && email;
 
     // Si marcó el checkbox, guardamos el email antes de descargar
-    if (wantsNotify && endpoint) {
+       if (wantsNotify && endpoint) {
       try {
+        // Usamos URLSearchParams para simular un formulario HTML. 
+        // Esto evita bloqueos del navegador y Google lo lee perfecto.
+        const formData = new URLSearchParams();
+        formData.append("email", email);
+
         await fetch(endpoint, {
           method: "POST",
           mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
+          body: formData, // Mandamos los datos como formulario
         });
       } catch {
-        // Si falla, igual dejamos que descargue
+        // ...
       }
-    }
-
+    } 
     // Redirigimos al asset
     if (currentDownloadUrl) {
       window.location.href = currentDownloadUrl;
