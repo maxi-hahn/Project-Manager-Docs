@@ -167,23 +167,38 @@ const { notify } = config;
     const email = emailInput?.value?.trim() ?? "";
     const wantsNotify = checkbox?.checked && email;
 
-    // Si marcó el checkbox, guardamos el email antes de descargar
-       if (wantsNotify && endpoint) {
-      try {
-        // Usamos URLSearchParams para simular un formulario HTML. 
-        // Esto evita bloqueos del navegador y Google lo lee perfecto.
-        const formData = new URLSearchParams();
-        formData.append("email", email);
-
-        await fetch(endpoint, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData, // Mandamos los datos como formulario
-        });
-      } catch {
-        // ...
+    if (wantsNotify && endpoint) {
+      // Creamos el iframe oculto si no existe
+      let iframe = document.getElementById("hidden_iframe");
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.name = "hidden_iframe";
+        iframe.id = "hidden_iframe";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
       }
-    } 
+
+      // Creamos el formulario clásico
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = endpoint;
+      form.target = "hidden_iframe";
+      form.style.display = "none";
+
+      // Agregamos el email
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "email";
+      input.value = email;
+      form.appendChild(input);
+
+      document.body.appendChild(form);
+      form.submit();
+      
+      // Esperamos 800ms para que viaje a Google
+      await new Promise(r => setTimeout(r, 800));
+    }
+
     // Redirigimos al asset
     if (currentDownloadUrl) {
       window.location.href = currentDownloadUrl;

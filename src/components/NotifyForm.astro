@@ -54,21 +54,47 @@ const { notify } = config;
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!message) return;
+    
     const email = document.getElementById("notify-email")?.value;
+    
     if (!email || !endpoint) {
       message.textContent = errorMessage;
       message.className = "text-sm text-red-400";
       return;
     }
-       try {
-      const formData = new URLSearchParams();
-      formData.append("email", email);
 
-      await fetch(endpoint, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData, 
-      });
+    try {
+      // 1. Creamos el iframe oculto si no existe
+      let iframe = document.getElementById("hidden_iframe");
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.name = "hidden_iframe";
+        iframe.id = "hidden_iframe";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+      }
+
+      // 2. Creamos el formulario clásico
+      const hiddenForm = document.createElement("form");
+      hiddenForm.method = "POST";
+      hiddenForm.action = endpoint;
+      hiddenForm.target = "hidden_iframe";
+      hiddenForm.style.display = "none";
+
+      // 3. Agregamos el email
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "email";
+      input.value = email;
+      hiddenForm.appendChild(input);
+
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+      
+      // 4. Esperamos a que viaje
+      await new Promise(r => setTimeout(r, 800));
+
+      // 5. Mostramos mensaje de éxito
       message.textContent = successMessage;
       message.className = "text-sm text-green-400";
       form.reset();
