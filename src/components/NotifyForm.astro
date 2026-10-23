@@ -5,18 +5,18 @@ const { notify } = config;
 ---
 
 {notify.enabled && (
-  <div class="rounded-lg border border-border bg-card p-6">
-    <h3 class="text-lg font-semibold text-white">{notify.title}</h3>
+  <div class="rounded-lg border border-border bg-card p-4 sm:p-6">
+    <h3 class="text-base font-semibold text-white sm:text-lg">{notify.title}</h3>
     <p class="mt-1 text-sm text-neutral-400">{notify.description}</p>
 
     <form id="notify-form" class="mt-5 flex flex-col gap-4">
-      <label class="flex cursor-pointer items-center gap-3 text-sm text-neutral-300">
+      <label class="flex cursor-pointer items-start gap-3 text-sm text-neutral-300 sm:items-center">
         <input
           type="checkbox"
           id="notify-checkbox"
-          class="h-4 w-4 cursor-pointer rounded border-border bg-bg accent-accent"
+          class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-border bg-bg accent-accent sm:mt-0"
         />
-        {notify.checkboxLabel}
+        <span>{notify.checkboxLabel}</span>
       </label>
 
       <div id="notify-email-wrapper" class="hidden flex-col gap-3 sm:flex-row">
@@ -25,11 +25,11 @@ const { notify } = config;
           id="notify-email"
           placeholder={notify.emailPlaceholder}
           required
-          class="flex-1 rounded-md border border-border bg-bg px-3 py-2 text-sm text-white placeholder-neutral-500 outline-none focus:border-accent"
+          class="w-full rounded-md border border-border bg-bg px-3 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-accent sm:flex-1 sm:py-2"
         />
         <button
           type="submit"
-          class="rounded-md bg-accent px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          class="w-full rounded-md bg-accent px-5 py-2.5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 sm:w-auto sm:py-2"
         >
           {notify.submitLabel}
         </button>

@@ -26,7 +26,7 @@ const downloadUrl = await getDownloadUrl();
   </Section>
 
   <Section id="features" title="Features">
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       {config.features.map((feature) => (
         <div class="rounded-lg border border-border bg-card p-5">
           <h3 class="font-medium text-white">{feature.title}</h3>
@@ -37,24 +37,24 @@ const downloadUrl = await getDownloadUrl();
   </Section>
 
   <Section id="empezar" title="Empezá ahora">
-    <div class="flex flex-wrap gap-3">
+    <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       <button
         type="button"
         data-open-download-modal
         data-download-url={downloadUrl}
-        class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        class="w-full rounded-md bg-accent px-5 py-2.5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 sm:w-auto"
       >
         Descargar última versión
       </button>
       <a
         href="/conceptos"
-        class="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+        class="w-full rounded-md border border-border bg-card px-5 py-2.5 text-center text-sm font-medium text-neutral-300 transition-colors hover:text-white sm:w-auto"
       >
         Leer conceptos →
       </a>
       <a
         href="/templates"
-        class="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+        class="w-full rounded-md border border-border bg-card px-5 py-2.5 text-center text-sm font-medium text-neutral-300 transition-colors hover:text-white sm:w-auto"
       >
         Ver templates →
       </a>

@@ -8,7 +8,7 @@ const { notify } = config;
   id="download-modal"
   class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
 >
-  <div class="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-xl">
+  <div class="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-lg border border-border bg-card p-5 sm:p-6 shadow-xl">
     <div class="flex items-start justify-between gap-4">
       <div>
         <h3 class="text-lg font-semibold text-white">
@@ -34,7 +34,7 @@ const { notify } = config;
           <input
             type="checkbox"
             id="download-modal-checkbox"
-            class="mt-0.5 h-4 w-4 cursor-pointer rounded border-border bg-bg accent-accent"
+            class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-border bg-bg accent-accent"
           />
           <span>{notify.checkboxLabel}</span>
         </label>
@@ -58,14 +58,14 @@ const { notify } = config;
       <button
         type="button"
         id="download-modal-cancel"
-        class="rounded-md border border-border px-4 py-2 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+        class="w-full rounded-md border border-border px-4 py-2 text-center text-sm font-medium text-neutral-300 transition-colors hover:text-white sm:w-auto"
       >
         Cancelar
       </button>
       <button
         type="button"
         id="download-modal-confirm"
-        class="cursor-pointer rounded-md bg-accent px-5 py-2 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+        class="w-full cursor-pointer rounded-md bg-accent px-5 py-2 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
       >
         Descargar
       </button>

@@ -3,12 +3,14 @@ import { config } from "../config";
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur">
-  <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-    <a href="/" class="flex items-center gap-2 text-sm font-semibold text-white">
-      <span class="inline-block h-2 w-2 rounded-full bg-accent"></span>
-      {config.name}
+  <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
+    <a href="/" class="flex shrink-0 items-center gap-2 text-sm font-semibold text-white">
+      <span class="inline-block h-2 w-2 shrink-0 rounded-full bg-accent"></span>
+      <span class="truncate">{config.name}</span>
     </a>
-    <nav class="flex items-center gap-6 text-sm">
+    
+    <!-- Desktop nav links -->
+    <nav class="hidden md:flex items-center gap-6 text-sm">
       {config.nav.map((item) => (
         <a
           href={item.href}
@@ -20,5 +22,55 @@ import { config } from "../config";
         </a>
       ))}
     </nav>
+
+    <!-- Mobile menu button -->
+    <button
+      type="button"
+      id="nav-menu-toggle"
+      class="inline-flex md:hidden items-center justify-center rounded-md p-2 text-neutral-400 hover:bg-card hover:text-white focus:outline-none"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Abrir menú"
+    >
+      <svg id="icon-menu-open" class="h-5 w-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-menu-close" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile dropdown menu -->
+  <div id="mobile-menu" class="hidden border-t border-border bg-bg/95 px-4 py-3 backdrop-blur md:hidden">
+    <nav class="flex flex-col gap-1 text-sm">
+      {config.nav.map((item) => (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener noreferrer" : undefined}
+          class="block rounded-md px-3 py-2 text-neutral-400 transition-colors hover:bg-card hover:text-white"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
   </div>
 </header>
+
+<script>
+  const toggleBtn = document.getElementById("nav-menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("icon-menu-open");
+  const iconClose = document.getElementById("icon-menu-close");
+
+  toggleBtn?.addEventListener("click", () => {
+    const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+    toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+    mobileMenu?.classList.toggle("hidden");
+    iconOpen?.classList.toggle("hidden");
+    iconOpen?.classList.toggle("block");
+    iconClose?.classList.toggle("hidden");
+    iconClose?.classList.toggle("block");
+  });
+</script>

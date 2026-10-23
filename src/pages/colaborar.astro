@@ -10,20 +10,20 @@ import { config } from "../config";
   description="Project Manager es open source. Aprendé cómo contribuir."
 >
 
-  <section class="mx-auto max-w-5xl px-6 py-16">
-    <h1 class="text-3xl font-bold text-white">Colaborar</h1>
-    <p class="mt-2 max-w-3xl text-neutral-400">
+  <section class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-16">
+    <h1 class="text-2xl font-bold text-white sm:text-3xl">Colaborar</h1>
+    <p class="mt-2 max-w-3xl text-sm text-neutral-400 sm:text-base">
       {config.name} es un proyecto open source bajo licencia MIT. Cualquiera
       puede contribuir: reportar bugs, proponer features, agregar templates o
       mejorar la documentación.
     </p>
 
-    <div class="mt-8 flex flex-wrap gap-3">
+    <div class="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
       <a
         href={`${config.github}/issues`}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        class="w-full rounded-md bg-accent px-5 py-2.5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 sm:w-auto"
       >
         Abrir un issue
       </a>
@@ -31,7 +31,7 @@ import { config } from "../config";
         href={`${config.github}/pulls`}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+        class="w-full rounded-md border border-border bg-card px-5 py-2.5 text-center text-sm font-medium text-neutral-300 transition-colors hover:text-white sm:w-auto"
       >
         Ver pull requests
       </a>
@@ -39,7 +39,7 @@ import { config } from "../config";
   </section>
 
   <Section id="pm" title="Contribuir a Project Manager">
-    <p class="max-w-3xl text-neutral-400">
+    <p class="max-w-3xl text-sm text-neutral-400 sm:text-base">
       ¿Encontraste un bug? ¿Tenés una idea para una feature? Abrí un issue en
       GitHub con una descripción clara. Si querés implementarlo vos mismo,
       hacé un fork, trabajá en una rama y abrí un pull request.
@@ -56,7 +56,7 @@ git push origin feature/mi-feature
 gh pr create`}
       />
     </div>
-    <p class="mt-4 max-w-3xl text-neutral-400">
+    <p class="mt-4 max-w-3xl text-sm text-neutral-400 sm:text-base">
       Antes de mandar el PR, corré los tests con
       <code class="font-mono">pytest</code> y verificá que la GUI siga
       funcionando.
@@ -64,7 +64,7 @@ gh pr create`}
   </Section>
 
   <Section id="templates" title="Contribuir templates">
-    <p class="max-w-3xl text-neutral-400">
+    <p class="max-w-3xl text-sm text-neutral-400 sm:text-base">
       El repositorio de templates oficiales está en{" "}
       <a
         href={config.templatesRepo}
@@ -77,7 +77,7 @@ gh pr create`}
       Cualquiera puede agregar templates nuevos.
     </p>
 
-    <h3 class="mt-8 text-lg font-medium text-white">Estructura de un template</h3>
+    <h3 class="mt-8 text-base font-medium text-white sm:text-lg">Estructura de un template</h3>
     <div class="mt-4">
       <CodeBlock
         label="Estructura de carpetas"
@@ -91,8 +91,8 @@ gh pr create`}
       />
     </div>
 
-    <h3 class="mt-8 text-lg font-medium text-white">template.json</h3>
-    <p class="mt-2 max-w-3xl text-neutral-400">
+    <h3 class="mt-8 text-base font-medium text-white sm:text-lg">template.json</h3>
+    <p class="mt-2 max-w-3xl text-sm text-neutral-400 sm:text-base">
       Archivo de metadata obligatorio. Ejemplo:
     </p>
     <div class="mt-4">
@@ -111,20 +111,20 @@ gh pr create`}
       />
     </div>
 
-    <h3 class="mt-8 text-lg font-medium text-white">Campos</h3>
+    <h3 class="mt-8 text-base font-medium text-white sm:text-lg">Campos</h3>
     <ul class="mt-4 flex flex-col gap-2 text-sm text-neutral-400">
-      <li><code class="font-mono text-accent">name</code> — nombre visible en la GUI.</li>
-      <li><code class="font-mono text-accent">category</code> — <code class="font-mono">cli</code>, <code class="font-mono">web_api</code>, <code class="font-mono">web_app</code>, <code class="font-mono">desktop</code> o <code class="font-mono">library</code>.</li>
-      <li><code class="font-mono text-accent">category_label</code> — etiqueta amigable de la categoría.</li>
-      <li><code class="font-mono text-accent">language</code> — <code class="font-mono">python</code>, <code class="font-mono">javascript</code>, <code class="font-mono">csharp</code>, etc.</li>
-      <li><code class="font-mono text-accent">runtime</code> — <code class="font-mono">python</code>, <code class="font-mono">node</code> o <code class="font-mono">dotnet</code>.</li>
-      <li><code class="font-mono text-accent">description</code> — texto corto que se muestra en la GUI.</li>
-      <li><code class="font-mono text-accent">version</code> — versión del template.</li>
-      <li><code class="font-mono text-accent">requires</code> — comandos requeridos en el PATH (ej: <code class="font-mono">["node"]</code>).</li>
+      <li class="break-words"><code class="font-mono text-accent">name</code> — nombre visible en la GUI.</li>
+      <li class="break-words"><code class="font-mono text-accent">category</code> — <code class="font-mono">cli</code>, <code class="font-mono">web_api</code>, <code class="font-mono">web_app</code>, <code class="font-mono">desktop</code> o <code class="font-mono">library</code>.</li>
+      <li class="break-words"><code class="font-mono text-accent">category_label</code> — etiqueta amigable de la categoría.</li>
+      <li class="break-words"><code class="font-mono text-accent">language</code> — <code class="font-mono">python</code>, <code class="font-mono">javascript</code>, <code class="font-mono">csharp</code>, etc.</li>
+      <li class="break-words"><code class="font-mono text-accent">runtime</code> — <code class="font-mono">python</code>, <code class="font-mono">node</code> o <code class="font-mono">dotnet</code>.</li>
+      <li class="break-words"><code class="font-mono text-accent">description</code> — texto corto que se muestra en la GUI.</li>
+      <li class="break-words"><code class="font-mono text-accent">version</code> — versión del template.</li>
+      <li class="break-words"><code class="font-mono text-accent">requires</code> — comandos requeridos en el PATH (ej: <code class="font-mono">["node"]</code>).</li>
     </ul>
 
-    <h3 class="mt-8 text-lg font-medium text-white">Placeholders</h3>
-    <p class="mt-2 max-w-3xl text-neutral-400">
+    <h3 class="mt-8 text-base font-medium text-white sm:text-lg">Placeholders</h3>
+    <p class="mt-2 max-w-3xl text-sm text-neutral-400 sm:text-base">
       En cualquier archivo de texto del template podés usar:
     </p>
     <div class="mt-4">
@@ -134,11 +134,11 @@ gh pr create`}
 {"{{DESCRIPTION}}"}   →  descripción`}
       />
     </div>
-    <p class="mt-4 max-w-3xl text-neutral-400">
+    <p class="mt-4 max-w-3xl text-sm text-neutral-400 sm:text-base">
       También funcionan en nombres de archivos y carpetas.
     </p>
 
-    <h3 class="mt-8 text-lg font-medium text-white">Pasos para contribuir</h3>
+    <h3 class="mt-8 text-base font-medium text-white sm:text-lg">Pasos para contribuir</h3>
     <ol class="mt-4 flex flex-col gap-2 text-sm text-neutral-400">
       <li>1. Fork del repo <code class="font-mono">Project-manager-templates</code>.</li>
       <li>2. Crear la carpeta del template en <code class="font-mono">TEMPLATES/&lt;categoria&gt;/&lt;nombre&gt;/</code>.</li>
@@ -149,7 +149,7 @@ gh pr create`}
   </Section>
 
   <Section id="docs" title="Contribuir a la documentación">
-    <p class="max-w-3xl text-neutral-400">
+    <p class="max-w-3xl text-sm text-neutral-400 sm:text-base">
       Si encontrás un typo, una explicación confusa o querés agregar ejemplos,
       podés editar la doc directamente. El sitio está hecho con Astro y el
       contenido vive en <code class="font-mono">src/config.ts</code> y en las
@@ -170,27 +170,27 @@ gh pr create`}
     </div>
   </Section>
 
-   <Section id="issues" title="¿Querés contribuir?">
-    <p class="max-w-3xl text-neutral-400">
+  <Section id="issues" title="¿Querés contribuir?">
+    <p class="max-w-3xl text-sm text-neutral-400 sm:text-base">
       No hace falta saber programar. Si encontraste un bug, tenés una idea o
       querés proponer una feature, abrí un issue contando qué pasó.
     </p>
-    <p class="mt-4 max-w-3xl text-neutral-400">
+    <p class="mt-4 max-w-3xl text-sm text-neutral-400 sm:text-base">
       ¿No sabés por dónde empezar? Mirá el roadmap para ver qué necesita el
       proyecto.
     </p>
-    <div class="mt-6 flex flex-wrap gap-3">
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       <a
         href={`${config.github}/issues/new`}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        class="w-full rounded-md bg-accent px-5 py-2.5 text-center text-sm font-medium text-white transition-opacity hover:opacity-90 sm:w-auto"
       >
         Abrir un issue
       </a>
       <a
-        href="/roadmap"
-        class="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:text-white"
+        href="/roadMap"
+        class="w-full rounded-md border border-border bg-card px-5 py-2.5 text-center text-sm font-medium text-neutral-300 transition-colors hover:text-white sm:w-auto"
       >
         Ver roadmap →
       </a>

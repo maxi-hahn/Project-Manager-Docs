@@ -4,9 +4,9 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-border">
-  <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-neutral-500 sm:flex-row">
+  <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-4 py-8 text-center text-sm text-neutral-500 sm:flex-row sm:px-6 sm:text-left">
     <p>© {year} {config.footer.text}</p>
-    <div class="flex gap-5">
+    <div class="flex flex-wrap justify-center gap-5">
       {config.footer.links.map((link) => (
         <a
           href={link.href}
