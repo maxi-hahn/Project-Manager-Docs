@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://project-manager-docs.vercel.app/sitemap-index.xml
+Sitemap: https://project-manager-docs.vercel.app/sitemap.xml
